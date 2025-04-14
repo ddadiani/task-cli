@@ -37,14 +37,29 @@ def main() -> None:
     # check first argument for the desired user command and execute it
     match command:
         case "add":
+            if len(args) < 3:
+                print("Please provide a task description.\nusage: task-cli add [description]")
+                return
             add(data, args[2], state)
         case "update":
+            if len(args) < 4:
+                print("Please provide task ID and new description\ntask-cli update [id] [new description]")
+                return
             update(data, args[2], args[3], state)
         case "delete":
+            if len(args) < 3:
+                print("Please provide the ID of the task to delete. (task-cli delete [id])")
+                return
             delete(data, args[2], state)
         case "mark-in-progress":
+            if len(args) < 3:
+                print("Please provide the ID of the task to mark in progress. (task-cli mark-in-progress [id])")
+                return
             mark_in_progress(data, args[2], state)
         case "mark-done":
+            if len(args) < 3:
+                print("Please provide the ID of the task to mark done. (task-cli mark-done [id])")
+                return
             mark_done(data, args[2], state)
         case "list":
             if len(args) == 2:
