@@ -25,7 +25,10 @@ def main() -> None:
     else:
         with open("data.json", "w") as file:
             pass
-        data = [{"incrementId": 0}, []]
+        data = {
+            "incrementId": 0,
+            "tasks": []
+        }
 
     # to check if file was changed
     state = {"changed": False}
@@ -68,12 +71,9 @@ def main() -> None:
 
 
 
-
-
-
 def getnextid(data):
-    data[0]["incrementId"] += 1
-    return str(data[0]["incrementId"])
+    data["incrementId"] += 1
+    return str(data["incrementId"])
 
 
 
@@ -86,7 +86,7 @@ def getdatetime():
 
 def add(data, desc, state):
     id = getnextid(data)
-    data[1].append(
+    data["tasks"].append(
         {
         "id": id,
         "description": desc,
@@ -103,7 +103,7 @@ def add(data, desc, state):
 
 
 def update(data, id, desc, state):
-    for task in data[1]:
+    for task in data["tasks"]:
         if task["id"] == id:
             task["description"] = desc
             task["updatedAt"] = getdatetime()
@@ -119,9 +119,9 @@ def update(data, id, desc, state):
 def delete(data, id, state):
     index = 0
 
-    for task in data[1]:
+    for task in data["tasks"]:
         if task["id"] == id:
-            data[1].pop(index)
+            data["tasks"].pop(index)
 
             state["changed"] = True
             print("Task successfully deleted")
@@ -135,7 +135,7 @@ def delete(data, id, state):
 
 
 def mark_in_progress(data, id, state):
-    for task in data[1]:
+    for task in data["tasks"]:
         if task["id"] == id:
             task["status"] = "in-progress"
             task["updatedAt"] = getdatetime()
@@ -149,7 +149,7 @@ def mark_in_progress(data, id, state):
 
 
 def mark_done(data, id, state):
-    for task in data[1]:
+    for task in data["tasks"]:
         if task["id"] == id:
             task["status"] = "done"
             task["updatedAt"] = getdatetime()
@@ -163,21 +163,21 @@ def mark_done(data, id, state):
 
 
 def list_all(data):
-    for task in data[1]:
+    for task in data["tasks"]:
         print(json.dumps(task, indent=4))
 
 
 
 
 def list_done(data):
-    for task in data[1]:
+    for task in data["tasks"]:
         if task["status"] == "done":
             print(json.dumps(task, indent=4))
 
 
 
 def list_todo(data):
-    for task in data[1]:
+    for task in data["tasks"]:
         if task["status"] == "todo":
             print(json.dumps(task, indent=4))
 
@@ -185,7 +185,7 @@ def list_todo(data):
 
 
 def list_in_progress(data):
-    for task in data[1]:
+    for task in data["tasks"]:
         if task["status"] == "in-progress":
             print(json.dumps(task, indent=4))
 
